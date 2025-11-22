@@ -521,6 +521,99 @@
             text-transform: none;
             letter-spacing: 0;
         }
+
+
+        /* ===== Mobile (x2 font size) ===== */
+        @media (max-width: 1070px) {
+            body {
+                font-size: 32px;
+            }
+
+            .scp-panel {
+                min-width: 100%;
+                padding: 0.9rem 1.2rem;
+                border-left-width: 8px;
+            }
+
+            main {
+                padding-top: 1.25rem;
+                padding-bottom: 1.75rem;
+            }
+
+            .card-soft {
+                border-radius: 0.9rem;
+            }
+
+            .avatar-frame {
+                border-radius: 0.9rem;
+            }
+
+            .meta-label {
+                font-size: 1.6rem;
+                letter-spacing: 0.12em;
+            }
+
+            .meta-value {
+                font-size: 1.96rem;
+            }
+
+            .tag-chip {
+                font-size: 1.8rem;
+                padding: 0.45rem 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+                letter-spacing: 0.14em;
+            }
+
+            .section-subtitle {
+                font-size: 1.8rem;
+            }
+
+            .section-body p {
+                font-size: 2rem;
+                line-height: 1.7;
+            }
+
+            .section-body li {
+                font-size: 1.92rem;
+
+            }
+
+            .timeline-title {
+                font-size: 1.92rem;
+
+            }
+
+            .timeline-meta {
+                font-size: 1.7rem;
+            }
+
+           
+            .section-icon {
+                width: 5.5rem;
+                height: 5.5rem;
+                border-radius: 2.3rem;
+                font-size: 2.5rem;
+                margin-right : 9px ;
+            }
+
+            .section-icon i {
+                font-size: 2.5rem;
+            }
+
+    
+            .tag-chip i {
+                font-size: 1.7rem;
+                margin-right : 7px ;
+            }
+
+           
+            .hero-pill i {
+                font-size: 1.4rem;
+            }
+        }
     </style>
 </head>
 
@@ -929,9 +1022,9 @@
             fetch(`${API_BASE}?id=${encodeURIComponent(personnelId)}`)
                 .then(res => res.json())
                 .then(payload => {
-                 
+
                     if (!payload || !payload.ok || payload.status !== "FOUND" || !payload.data) {
-                       
+
                         window.location.href = INDEX_URL;
                         return;
                     }
@@ -944,7 +1037,7 @@
                 })
                 .catch(err => {
                     console.error("Error fetching personnel data:", err);
-                    
+
                     window.location.href = INDEX_URL;
                 })
                 .finally(() => {
