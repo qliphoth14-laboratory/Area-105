@@ -1,776 +1,779 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Area-105 Personnel ID</title>
-  <base target="_top">
 
-  <!-- Bootstrap & Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-
-  <style>
-    :root {
-      --bg-page: #f4f4f2;
-      --border-soft: #d4d4cf;
-      --accent-blue: #536292;
-      --accent-warn: #f97373;
-      --text-muted: #6b7280;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(83, 98, 146, 0.10), transparent 55%),
-        radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.12), transparent 55%),
-        linear-gradient(to bottom, #f7f7f5, #f2f2ef);
-      color: #111827;
-    }
-
-    .page-shell {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Top bar */
-    .top-nav {
-      padding: 0.75rem 0;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.4);
-      background-color: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-
-    .brand-mark {
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      color: #0f172a;
-    }
-
-    .brand-logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 0.75rem;
-      object-fit: contain;
-    }
-
-    .brand-sub {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--text-muted);
-    }
-
-    .nav-badge {
-      font-size: 0.7rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      padding: 0.15rem 0.75rem;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.9);
-      color: #111827;
-      background-color: #f9fafb;
-    }
-
-    main {
-      flex: 1;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 1.75rem 1rem 2.5rem;
-    }
-
-    /* Frame + label (ซ่อนบนมือถือ, แสดงบนจอใหญ่) */
-    .frame-layer {
-      display: none;
-    }
-
-    .frame-label {
-      display: none;
-    }
-
-    /* Center card – mobile first */
-    .id-shell {
-      width: 100%;
-      max-width: 100%;
-    }
-
-    .id-card {
-      background-color: #ffffff;
-      border-radius: 1.1rem;
-      border: 1px solid var(--border-soft);
-      box-shadow:
-        0 26px 60px rgba(15, 23, 42, 0.15),
-        0 0 0 1px rgba(15, 23, 42, 0.02);
-      padding: 1.8rem 1.5rem 1.6rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .id-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to right,
-          rgba(15, 23, 42, 0.04),
-          transparent 25%,
-          transparent 75%,
-          rgba(15, 23, 42, 0.03));
-      opacity: 1;
-      pointer-events: none;
-    }
-
-    .id-card-header {
-      position: relative;
-      text-align: center;
-      margin-bottom: 1.7rem;
-    }
-
-    .id-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.25rem 0.85rem;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      font-size: 0.72rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      background-color: #f9fafb;
-      color: #111827;
-      margin-bottom: 0.7rem;
-    }
-
-    .id-pill span {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-    }
-
-    .id-card-title {
-      font-size: 1.05rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      font-weight: 600;
-      color: #0f172a;
-    }
-
-    .id-card-subtitle {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-top: 0.4rem;
-    }
-
-    .divider-bar {
-      margin: 1.2rem auto 0;
-      height: 3px;
-      width: 120px;
-      border-radius: 999px;
-      background: linear-gradient(to right, #111827, #9ca3af);
-      opacity: 0.75;
-    }
-
-    .form-label {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--text-muted);
-      margin-bottom: 0.3rem;
-    }
-
-    .form-control-id {
-      border-radius: 0.75rem;
-      border: 1px solid var(--border-soft);
-      padding: 0.6rem 0.85rem;
-      font-size: 0.95rem;
-      background-color: #f9fafb;
-    }
-
-    .form-control-id:focus {
-      border-color: var(--accent-blue);
-      box-shadow: 0 0 0 1px rgba(83, 98, 146, 0.35);
-      background-color: #ffffff;
-    }
-
-    .hint-text {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-top: 0.3rem;
-    }
-
-    .hint-text code {
-      background: #111827;
-      color: #e5e7eb;
-      padding: 0.1rem 0.25rem;
-      border-radius: 0.35rem;
-      font-size: 0.72rem;
-    }
-
-    /* ปุ่ม submit */
-    .btn-primary-submit {
-      margin-top: 1.4rem;
-      width: 100%;
-      border-radius: 999px;
-      padding: 0.6rem 1rem;
-      font-size: 0.92rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      background-color: #000000;
-      color: #f9fafb;
-      border: 1px solid #000000;
-      position: relative;
-      overflow: hidden;
-      transition:
-        background-color 0.16s ease,
-        color 0.16s ease,
-        border-color 0.16s ease,
-        opacity 0.12s ease;
-    }
-
-    .btn-primary-submit:hover {
-      background-color: #ffffff;
-      color: #000000;
-      border-color: #000000;
-    }
-
-    .btn-primary-submit:active {
-      background-color: #111111;
-      color: #f9fafb;
-    }
-
-    .btn-primary-submit .btn-text {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .btn-primary-submit .btn-spinner {
-      margin-left: 0.4rem;
-      display: none;
-      font-size: 1rem;
-    }
-
-    .btn-primary-submit .btn-spinner i {
-      display: inline-block;
-      animation: spin 0.8s linear infinite;
-    }
-
-    .btn-primary-submit.btn-loading {
-      cursor: wait;
-      opacity: 0.9;
-    }
-
-    .btn-primary-submit.btn-loading .btn-spinner {
-      display: inline-flex;
-    }
-
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-
-    .success-text {
-      margin-top: 0.75rem;
-      font-size: 0.8rem;
-      color: #16a34a;
-      display: none;
-    }
-
-    .meta-line {
-      margin-top: 0.9rem;
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: rgba(75, 85, 99, 0.9);
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-      opacity: 0.9;
-      flex-wrap: wrap;
-    }
-
-    .meta-line span:last-child {
-      color: rgba(55, 65, 81, 0.95);
-    }
-
-    /* Popup overlay + band */
-    .error-box {
-      position: fixed;
-      left: 0;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-      opacity: 0;
-      z-index: 9999;
-    }
-
-    .error-band {
-      height: 170px;
-      width: 0;
-      max-width: 100vw;
-      background:
-        radial-gradient(circle at top, rgba(248, 113, 113, 0.14), transparent 60%),
-        radial-gradient(circle at bottom, rgba(15, 23, 42, 0.9), #050505 70%);
-      backdrop-filter: blur(18px) brightness(0.18);
-      -webkit-backdrop-filter: blur(18px) brightness(0.18);
-      border-top: 1px solid rgba(248, 113, 113, 0.6);
-      border-bottom: 1px solid rgba(248, 113, 113, 0.4);
-      box-shadow:
-        0 40px 80px rgba(0, 0, 0, 0.65),
-        0 0 0 1px rgba(248, 113, 113, 0.15);
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .error-box-inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      max-width: 90vw;
-      padding: 0 0.75rem;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .error-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.25rem 0.9rem;
-      border-radius: 999px;
-      border: 1px solid rgba(248, 250, 252, 0.35);
-      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.6);
-    }
-
-    .error-chip-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      color: #fecaca;
-    }
-
-    .error-chip-label {
-      font-size: 0.72rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #e5e7eb;
-      white-space: nowrap;
-    }
-
-    .error-separator {
-      width: 60vw;
-      max-width: 360px;
-      height: 2px;
-      border-radius: 999px;
-      background: linear-gradient(to right,
-          transparent,
-          rgba(177, 177, 177, 0.8),
-          transparent);
-      opacity: 0.9;
-    }
-
-    .error-box-text {
-      color: rgb(158, 112, 112);
-      font-size: 0.78rem;
-      line-height: 1.6;
-      display: inline-block;
-    }
-
-    .error-box--visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .error-band--open {
-      animation: errorOpen 0.8s ease-in-out forwards;
-    }
-
-    .error-band--close {
-      animation: errorClose 0.6s ease-in-out forwards;
-    }
-
-    @keyframes errorOpen {
-      0% {
-        width: 0px;
-      }
-
-      100% {
-        width: 100vw;
-      }
-    }
-
-    @keyframes errorClose {
-      0% {
-        width: 100vw;
-        opacity: 1;
-      }
-
-      100% {
-        width: 0;
-        opacity: 1;
-      }
-    }
-
-    /* จอ medium ขึ้นไป: ปรับให้คล้าย desktop เดิม + เพิ่ม frame */
-    @media (min-width: 768px) {
-      main {
-        align-items: center;
-        padding-top: 2.5rem;
-      }
-
-      .id-shell {
-        max-width: 780px;
-      }
-
-      .id-card {
-        padding: 2.3rem 2.35rem 2rem;
-      }
-
-      .error-box-text {
-        font-size: 0.8rem;
-      }
-    }
-
-    /* จอใหญ่ขึ้นไป: แสดง frame-layer + label */
-    @media (min-width: 992px) {
-      .frame-layer {
-        display: block;
-        position: fixed;
-        inset: 70px 32px 32px 32px;
-        border-radius: 18px;
-        border: 1px solid rgba(148, 163, 184, 0.35);
-        pointer-events: none;
-        box-shadow:
-          0 45px 80px rgba(15, 23, 42, 0.17),
-          inset 0 0 0 1px rgba(255, 255, 255, 0.4);
-      }
-
-      .frame-layer::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background-image:
-          linear-gradient(to right, rgba(148, 163, 184, 0.12) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(148, 163, 184, 0.10) 1px, transparent 1px);
-        background-size: 46px 46px;
-        mix-blend-mode: soft-light;
-        opacity: 0.3;
-      }
-
-      .frame-label {
-        display: block;
-        position: fixed;
-        left: 48px;
-        bottom: 40px;
-        font-size: 0.7rem;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: rgba(55, 65, 81, 0.7);
-        pointer-events: none;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <div class="page-shell">
-    <!-- Frame + grid overlay -->
-    <div class="frame-layer"></div>
-    <div class="frame-label">ACCESS GATEWAY · AREA-105 PERSONNEL REGISTRY</div>
-
-    <!-- Top Nav -->
-    <header class="top-nav py-2">
-      <div class="container-xl d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center gap-3">
-          <img src="https://cdn.jsdelivr.net/gh/InterSecure-TheFoundation/area105-assets@main/images/ui/Logo_A105.png"
-               alt="Area-105 Logo" class="brand-logo">
-          <div>
-            <div class="brand-mark">Area-105</div>
-            <div class="brand-sub">Personnel Registry · Secure · Contain · Protect</div>
-          </div>
-        </div>
-        <div class="d-flex align-items-center gap-2">
-          <span class="nav-badge d-none d-md-inline">
-            ACCESS: INTERNAL USE ONLY
-          </span>
-        </div>
-      </div>
-    </header>
-
-    <!-- Popup overlay -->
-    <div id="errorBox" class="error-box" aria-hidden="true">
-      <div id="errorBand" class="error-band">
-        <div class="error-box-inner">
-          <div class="error-chip">
-            <span class="error-chip-icon">
-              <i class="bi bi-exclamation-triangle"></i>
-            </span>
-            <span class="error-chip-label">
-              SECURITY NOTICE · AREA-105
-            </span>
-          </div>
-
-          <div class="error-separator"></div>
-
-          <div id="errorMessage" class="error-box-text hint-text">
-            ข้อมูลไม่ถูกต้อง
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Main -->
-    <main>
-      <div class="id-shell">
-        <div class="id-card">
-          <div class="id-card-header">
-            <div class="id-pill">
-              <span><i class="bi bi-person-badge"></i> PERSONNEL ACCESS</span>
-              <span>GATEWAY · SITE: AREA-105</span>
-            </div>
-            <div class="id-card-title">Personnel Verification</div>
-            <div class="id-card-subtitle">
-              กรุณากรอก Personnel ID ของคุณเพื่อยืนยันสิทธิ์ก่อนเข้าถึงแฟ้มประวัติบุคลากร
-            </div>
-            <div class="divider-bar"></div>
-          </div>
-
-          <form id="idForm" novalidate>
-            <div class="mb-2">
-              <label for="personnelId" class="form-label">
-                Personnel ID
-              </label>
-              <input type="text" id="personnelId" name="personnelId"
-                     class="form-control form-control-id" autocomplete="off"
-                     placeholder="เช่น A105-RD-0001">
-              <div class="hint-text">
-                รูปแบบมาตรฐาน: <code>A105-RD-0001</code> | <span>Site</span>-<span>Department
-                  Code</span>-<span>Personnel ID</span>
-              </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary-submit">
-              <span class="btn-text">
-                Continue
-                <span class="btn-spinner" aria-hidden="true">
-                  <i class="bi bi-arrow-repeat"></i>
-                </span>
-              </span>
-            </button>
-
-            <div id="successText" class="success-text">
-              ตรวจสอบรูปแบบสำเร็จ กำลังดำเนินการไปยังหน้าข้อมูลบุคลากร. . .
-            </div>
-
-            <div class="meta-line">
-              <span>AUTH POLICY: LEVEL 2+ CREDENTIALS</span>
-              <span>LOGGED · MONITORED · ARCHIVED</span>
-            </div>
-          </form>
-        </div>
-      </div>
-    </main>
-  </div>
-
-  <script>
-    (function () {
-      const form = document.getElementById("idForm");
-      const input = document.getElementById("personnelId");
-      const successText = document.getElementById("successText");
-
-      const box = document.getElementById("errorBox");
-      const band = document.getElementById("errorBand");
-      const msgEl = document.getElementById("errorMessage");
-      const submitBtn = form.querySelector(".btn-primary-submit");
-
-      let hideTimer = null;
-      let closeAnimTimer = null;
-      let overlayActive = false;
-
-      const API_BASE = "https://script.google.com/macros/s/AKfycbz-DS0yA5iorJMVJ8xmgXxPqvy-it2BgLk3xRLMm_RHETOL4lJTHrmAgDqvT0AOnOUuWQ/exec";
-      const PROFILE_URL = "profile.html";
-
-      function setLoading(isLoading) {
-        if (!submitBtn) return;
-        if (isLoading) {
-          submitBtn.classList.add("btn-loading");
-          submitBtn.disabled = true;
-        } else if (!overlayActive) {
-          submitBtn.classList.remove("btn-loading");
-          submitBtn.disabled = false;
-        } else {
-          submitBtn.classList.remove("btn-loading");
-          submitBtn.disabled = true;
-        }
-      }
-
-      function showOverlay() {
-        if (!box) return;
-        overlayActive = true;
-        box.classList.add("error-box--visible");
-        box.setAttribute("aria-hidden", "false");
-        submitBtn.disabled = true;
-      }
-
-      function hideOverlayAnimated() {
-        if (!box || !band) return;
-
-        band.classList.remove("error-band--open");
-        void band.offsetWidth;
-        band.classList.add("error-band--close");
-
-        if (closeAnimTimer) clearTimeout(closeAnimTimer);
-
-        closeAnimTimer = setTimeout(() => {
-          band.classList.remove("error-band--close");
-          box.classList.remove("error-box--visible");
-          box.setAttribute("aria-hidden", "true");
-          band.style.width = "0";
-          overlayActive = false;
-          if (!submitBtn.classList.contains("btn-loading")) {
-            submitBtn.disabled = false;
-          }
-        }, 600);
-      }
-
-      function showError(message) {
-        if (!box || !band) return;
-
-        msgEl.textContent = message ||
-          "ระบบไม่สามารถดำเนินการต่อได้ เนื่องจากข้อมูลที่ระบุไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง.";
-
-        showOverlay();
-
-        band.classList.remove("error-band--close");
-        void band.offsetWidth;
-        band.classList.add("error-band--open");
-
-        if (hideTimer) clearTimeout(hideTimer);
-
-        hideTimer = setTimeout(() => {
-          hideOverlayAnimated();
-        }, 3200);
-      }
-
-      function hideErrorNow() {
-        if (hideTimer) clearTimeout(hideTimer);
-        if (closeAnimTimer) clearTimeout(closeAnimTimer);
-
-        if (!box || !band) return;
-
-        band.classList.remove("error-band--open", "error-band--close");
-        box.classList.remove("error-box--visible");
-        box.setAttribute("aria-hidden", "true");
-        band.style.width = "0";
-        overlayActive = false;
-        if (!submitBtn.classList.contains("btn-loading")) {
-          submitBtn.disabled = false;
-        }
-      }
-
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        if (overlayActive) {
-          return;
-        }
-
-        const value = (input.value || "").trim();
-        successText.style.display = "none";
-
-        if (!value) {
-          showError(
-            "ระบบไม่สามารถดำเนินการต่อได้ เนื่องจากยังไม่ได้ระบุ Personnel ID " +
-            "กรุณากรอกหมายเลขประจำตัวบุคลากรให้ครบถ้วนก่อนกดดำเนินการต่อ."
-          );
-          input.focus();
-          return;
-        }
-
-        const pattern = /^A105-[A-Z]{2}-\d{4}$/i;
-
-        if (!pattern.test(value)) {
-          showError(
-            "รูปแบบ Personnel ID ที่ระบุไม่ถูกต้อง หรือไม่ตรงกับมาตรฐานที่ใช้ใน Area-105 " +
-            "กรุณาตรวจสอบอีกครั้งว่าใช้รูปแบบ A105-XX-0000 (เช่น A105-RD-0001) แล้วลองใหม่อีกครั้ง."
-          );
-          input.focus();
-          return;
-        }
-
-        setLoading(true);
-
-        fetch(`${API_BASE}?id=${encodeURIComponent(value)}`)
-          .then(res => res.json())
-          .then(data => {
-            if (!data.ok || data.status !== "FOUND") {
-              setLoading(false);
-              showError(
-                "ไม่พบข้อมูลบุคลากรสำหรับ Personnel ID ที่ระบุ " +
-                "กรุณาตรวจสอบว่าไม่ได้พิมพ์ผิด หรือใช้หมายเลขที่ได้รับอนุมัติจาก Area-105 เท่านั้น."
-              );
-              input.focus();
-              return;
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <title>Area-105 Personnel ID</title>
+        <base target="_top">
+        <!-- Bootstrap & Icons -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+        <!-- Font -->
+        <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet">
+
+        <style>
+            :root {
+                --bg-page: #f4f4f2;
+                --border-soft: #d4d4cf;
+                --accent-blue: #536292;
+                --accent-warn: #f97373;
+                --text-muted: #6b7280;
             }
 
-            successText.style.display = "block";
-            const targetUrl = `${PROFILE_URL}?id=${encodeURIComponent(value)}`;
-            window.location.href = targetUrl;
-          })
-          .catch(err => {
-            console.error(err);
-            setLoading(false);
-            showError(
-              "ระบบไม่สามารถติดต่อเซิร์ฟเวอร์ได้ในขณะนี้ " +
-              "กรุณาลองใหม่อีกครั้งภายหลัง หรือแจ้งเจ้าหน้าที่ Area-105."
-            );
-          });
-      });
+            * {
+                box-sizing: border-box;
+            }
 
-      if (box) {
-        box.addEventListener("click", hideErrorNow);
-      }
+            body {
+                margin: 0;
+                font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                    sans-serif;
+                background:
+                    radial-gradient(circle at top left, rgba(83, 98, 146, 0.10), transparent 55%),
+                    radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.12), transparent 55%),
+                    linear-gradient(to bottom, #f7f7f5, #f2f2ef);
+                color: #111827;
+            }
 
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-          hideErrorNow();
-        }
-      });
-    })();
-  </script>
+            .page-shell {
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* Top bar */
+            .top-nav {
+                padding: 0.75rem 0;
+                border-bottom: 1px solid rgba(148, 163, 184, 0.4);
+                background-color: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+            }
+
+            .brand-mark {
+                font-weight: 700;
+                letter-spacing: 0.16em;
+                font-size: 0.8rem;
+                text-transform: uppercase;
+                color: #0f172a;
+            }
+
+            .brand-logo {
+                width: 36px;
+                height: 36px;
+                border-radius: 0.75rem;
+                object-fit: contain;
+
+
+            }
+
+            .brand-sub {
+                font-size: 0.7rem;
+                text-transform: uppercase;
+                letter-spacing: 0.18em;
+                color: var(--text-muted);
+            }
+
+            .nav-badge {
+                font-size: 0.7rem;
+                letter-spacing: 0.16em;
+                text-transform: uppercase;
+                padding: 0.15rem 0.75rem;
+                border-radius: 999px;
+                border: 1px solid rgba(148, 163, 184, 0.9);
+                color: #111827;
+                background-color: #f9fafb;
+            }
+
+            main {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 2.5rem 1rem 2.75rem;
+            }
+
+            /* Subtle frame + grid */
+            .frame-layer {
+                position: fixed;
+                inset: 70px 32px 32px 32px;
+                border-radius: 18px;
+                border: 1px solid rgba(148, 163, 184, 0.35);
+                pointer-events: none;
+                box-shadow:
+                    0 45px 80px rgba(15, 23, 42, 0.17),
+                    inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+            }
+
+            .frame-layer::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background-image:
+                    linear-gradient(to right, rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(148, 163, 184, 0.10) 1px, transparent 1px);
+                background-size: 46px 46px;
+                mix-blend-mode: soft-light;
+                opacity: 0.3;
+            }
+
+            .frame-label {
+                position: fixed;
+                left: 48px;
+                bottom: 40px;
+                font-size: 0.7rem;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: rgba(55, 65, 81, 0.7);
+                pointer-events: none;
+            }
+
+            /* Center card */
+            .id-shell {
+                max-width: 45vw;
+                width: 100%;
+            }
+
+            .id-card {
+                background-color: #ffffff;
+                border-radius: 1.1rem;
+                border: 1px solid var(--border-soft);
+                box-shadow:
+                    0 26px 60px rgba(15, 23, 42, 0.15),
+                    0 0 0 1px rgba(15, 23, 42, 0.02);
+                padding: 2.3rem 2.35rem 2rem;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .id-card::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(to right, rgba(15, 23, 42, 0.04), transparent 25%, transparent 75%, rgba(15, 23, 42, 0.03));
+                opacity: 1;
+                pointer-events: none;
+            }
+
+            .id-card-header {
+                position: relative;
+                text-align: center;
+                margin-bottom: 1.9rem;
+            }
+
+            .id-pill {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.25rem 0.85rem;
+                border-radius: 999px;
+                border: 1px solid rgba(148, 163, 184, 0.6);
+                font-size: 0.72rem;
+                letter-spacing: 0.16em;
+                text-transform: uppercase;
+                background-color: #f9fafb;
+                color: #111827;
+                margin-bottom: 0.7rem;
+            }
+
+            .id-pill span {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.25rem;
+            }
+
+            .id-card-title {
+                font-size: 1.05rem;
+                text-transform: uppercase;
+                letter-spacing: 0.16em;
+                font-weight: 600;
+                color: #0f172a;
+            }
+
+            .id-card-subtitle {
+                font-size: 0.82rem;
+                color: var(--text-muted);
+                margin-top: 0.4rem;
+            }
+
+            .divider-bar {
+                margin: 1.2rem auto 0;
+                height: 3px;
+                width: 120px;
+                border-radius: 999px;
+                background: linear-gradient(to right, #111827, #9ca3af);
+                opacity: 0.75;
+            }
+
+            .form-label {
+                font-size: 0.8rem;
+                text-transform: uppercase;
+                letter-spacing: 0.15em;
+                color: var(--text-muted);
+                margin-bottom: 0.3rem;
+            }
+
+            .form-control-id {
+                border-radius: 0.75rem;
+                border: 1px solid var(--border-soft);
+                padding: 0.6rem 0.85rem;
+                font-size: 0.95rem;
+                background-color: #f9fafb;
+            }
+
+            .form-control-id:focus {
+                border-color: var(--accent-blue);
+                box-shadow: 0 0 0 1px rgba(83, 98, 146, 0.35);
+                background-color: #ffffff;
+            }
+
+            .hint-text {
+                font-size: 0.78rem;
+                color: var(--text-muted);
+                margin-top: 0.3rem;
+            }
+
+            .hint-text code {
+                background: #111827;
+                color: #e5e7eb;
+                padding: 0.1rem 0.25rem;
+                border-radius: 0.35rem;
+                font-size: 0.72rem;
+            }
+
+            /* ปุ่ม submit */
+            .btn-primary-submit {
+                margin-top: 1.4rem;
+                width: 100%;
+                border-radius: 999px;
+                padding: 0.6rem 1rem;
+                font-size: 0.92rem;
+                font-weight: 600;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                background-color: #000000;
+                color: #f9fafb;
+                border: 1px solid #000000;
+                position: relative;
+                overflow: hidden;
+                transition:
+                    background-color 0.16s ease,
+                    color 0.16s ease,
+                    border-color 0.16s ease,
+                    opacity 0.12s ease;
+            }
+
+            .btn-primary-submit:hover {
+                background-color: #ffffff;
+                color: #000000;
+                border-color: #000000;
+            }
+
+            .btn-primary-submit:active {
+                background-color: #111111;
+                color: #f9fafb;
+            }
+
+            .btn-primary-submit .btn-text {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+            }
+
+            /* spinner ไอคอนหมุน */
+            .btn-primary-submit .btn-spinner {
+                margin-left: 0.4rem;
+                display: none;
+                font-size: 1rem;
+            }
+
+            .btn-primary-submit .btn-spinner i {
+                display: inline-block;
+                animation: spin 0.8s linear infinite;
+            }
+
+            .btn-primary-submit.btn-loading {
+                cursor: wait;
+                opacity: 0.9;
+            }
+
+            .btn-primary-submit.btn-loading .btn-spinner {
+                display: inline-flex;
+            }
+
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+
+            .success-text {
+                margin-top: 0.75rem;
+                font-size: 0.8rem;
+                color: #16a34a;
+                display: none;
+            }
+
+            .meta-line {
+                margin-top: 0.9rem;
+                font-size: 0.72rem;
+                text-transform: uppercase;
+                letter-spacing: 0.16em;
+                color: rgba(75, 85, 99, 0.9);
+                display: flex;
+                justify-content: space-between;
+                gap: 1rem;
+                opacity: 0.9;
+            }
+
+            .meta-line span:last-child {
+                color: rgba(55, 65, 81, 0.95);
+            }
+
+            /* ===== Popup overlay + band ===== */
+            .error-box {
+                position: fixed;
+                left: 0;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                pointer-events: none;
+                opacity: 0;
+                z-index: 9999;
+            }
+
+            /* แถบดำที่ animate width */
+            .error-band {
+                height: 170px;
+                width: 0;
+                max-width: 100vw;
+                background:
+                    radial-gradient(circle at top, rgba(248, 113, 113, 0.14), transparent 60%),
+                    radial-gradient(circle at bottom, rgba(15, 23, 42, 0.9), #050505 70%);
+                backdrop-filter: blur(18px) brightness(0.18);
+                -webkit-backdrop-filter: blur(18px) brightness(0.18);
+                border-top: 1px solid rgba(248, 113, 113, 0.6);
+                border-bottom: 1px solid rgba(248, 113, 113, 0.4);
+                box-shadow:
+                    0 40px 80px rgba(0, 0, 0, 0.65),
+                    0 0 0 1px rgba(248, 113, 113, 0.15);
+                overflow: hidden;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .error-box-inner {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 0.6rem;
+                max-width: 90vw;
+                padding: 0 0.75rem;
+                text-align: center;
+                flex-shrink: 0;
+            }
+
+            /* แท็บหัวเตือนแบบ modern */
+            .error-chip {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.25rem 0.9rem;
+                border-radius: 999px;
+                border: 1px solid rgba(248, 250, 252, 0.35);
+                /* background: rgba(15, 23, 42, 0.8); */
+                box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.6);
+            }
+
+            .error-chip-icon {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1rem;
+                color: #fecaca;
+            }
+
+            .error-chip-label {
+                font-size: 0.72rem;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: #e5e7eb;
+                white-space: nowrap;
+            }
+
+            .error-separator {
+                width: 30vw;
+                height: 2px;
+                border-radius: 999px;
+                background: linear-gradient(to right,
+                        transparent,
+                        rgba(177, 177, 177, 0.8),
+                        transparent);
+                opacity: 0.9;
+            }
+
+            .error-box-text {
+                color: rgb(158, 112, 112);
+                font-size: 0.78rem;
+                line-height: 1.6;
+                display: inline-block;
+            }
+
+            .error-box--visible {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            .error-band--open {
+                animation: errorOpen 0.8s ease-in-out forwards;
+            }
+
+            .error-band--close {
+                animation: errorClose 0.6s ease-in-out forwards;
+            }
+
+            @keyframes errorOpen {
+                0% {
+                    width: 0px;
+                }
+
+                100% {
+                    width: 100vw;
+                }
+            }
+
+            @keyframes errorClose {
+                0% {
+                    width: 100vw;
+                    opacity: 1;
+                }
+
+                100% {
+                    width: 0;
+                    opacity: 1;
+                }
+            }
+
+            @media (max-width: 576px) {
+                .frame-layer {
+                    inset: 64px 12px 20px 12px;
+                }
+
+                .id-card {
+                    padding: 1.8rem 1.6rem 1.6rem;
+                }
+
+                .error-box-text {
+                    font-size: 1.02rem;
+                }
+
+                .frame-label {
+                    display: none;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="page-shell">
+            <!-- Frame + grid overlay -->
+            <div class="frame-layer"></div>
+            <div class="frame-label">ACCESS GATEWAY · AREA-105 PERSONNEL REGISTRY</div>
+
+            <!-- Top Nav -->
+            <header class="top-nav py-2">
+                <div class="container-xl d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center gap-3">
+                        <img src="https://cdn.jsdelivr.net/gh/InterSecure-TheFoundation/area105-assets@main/images/ui/Logo_A105.png"
+                            alt="Area-105 Logo" class="brand-logo">
+                        <div>
+                            <div class="brand-mark">Area-105</div>
+                            <div class="brand-sub">Personnel Registry · Secure · Contain · Protect</div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="nav-badge d-none d-md-inline">
+                            ACCESS: INTERNAL USE ONLY
+                        </span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Popup overlay -->
+            <div id="errorBox" class="error-box" aria-hidden="true">
+                <div id="errorBand" class="error-band">
+                    <div class="error-box-inner">
+                        <!-- หัวเตือน static แบบทางการ -->
+                        <div class="error-chip">
+                            <span class="error-chip-icon">
+                                <i class="bi bi-exclamation-triangle"></i>
+
+                            </span>
+                            <span class="error-chip-label">
+                                SECURITY NOTICE · AREA-105
+                            </span>
+                        </div>
+
+
+                        <div class="error-separator"></div>
+
+                        <!-- ข้อความ error เปลี่ยนตามสถานการณ์ -->
+                        <div id="errorMessage" class="error-box-text hint-text">
+                            ข้อมูลไม่ถูกต้อง
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main -->
+            <main>
+                <div class="id-shell">
+                    <div class="id-card">
+                        <div class="id-card-header">
+                            <div class="id-pill">
+                                <span><i class="bi bi-person-badge"></i> PERSONNEL ACCESS</span>
+                                <span>GATEWAY · SITE: AREA-105</span>
+                            </div>
+                            <div class="id-card-title">Personnel Verification</div>
+                            <div class="id-card-subtitle">
+                                กรุณากรอก Personnel ID ของคุณเพื่อยืนยันสิทธิ์ก่อนเข้าถึงแฟ้มประวัติบุคลากร
+                            </div>
+                            <div class="divider-bar"></div>
+                        </div>
+
+                        <form id="idForm" novalidate>
+                            <div class="mb-2">
+                                <label for="personnelId" class="form-label">
+                                    Personnel ID
+                                </label>
+                                <input type="text" id="personnelId" name="personnelId"
+                                    class="form-control form-control-id" autocomplete="off"
+                                    placeholder="เช่น A105-RD-0001">
+                                <div class="hint-text">
+                                    รูปแบบมาตรฐาน: <code>A105-RD-0001</code> | <span>Site</span>-<span>Department
+                                        Code</span>-<span>Personnel ID</span>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary-submit">
+                                <span class="btn-text">
+                                    Continue
+                                    <span class="btn-spinner" aria-hidden="true">
+                                        <i class="bi bi-arrow-repeat"></i>
+                                    </span>
+                                </span>
+                            </button>
+
+                            <div id="successText" class="success-text">
+                                ตรวจสอบรูปแบบสำเร็จ กำลังดำเนินการไปยังหน้าข้อมูลบุคลากร. . .
+                            </div>
+
+                            <div class="meta-line">
+                                <span>AUTH POLICY: LEVEL 2+ CREDENTIALS</span>
+                                <span>LOGGED · MONITORED · ARCHIVED</span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <script>
+            (function () {
+                const form = document.getElementById("idForm");
+                const input = document.getElementById("personnelId");
+                const successText = document.getElementById("successText");
+
+                const box = document.getElementById("errorBox");
+                const band = document.getElementById("errorBand");
+                const msgEl = document.getElementById("errorMessage");
+                const submitBtn = form.querySelector(".btn-primary-submit");
+
+                let hideTimer = null;
+                let closeAnimTimer = null;
+                let overlayActive = false;
+
+
+                const API_BASE = "https://script.google.com/macros/s/AKfycbz-DS0yA5iorJMVJ8xmgXxPqvy-it2BgLk3xRLMm_RHETOL4lJTHrmAgDqvT0AOnOUuWQ/exec";
+
+
+                const PROFILE_URL = "profile.html";
+
+                function setLoading(isLoading) {
+                    if (!submitBtn) return;
+                    if (isLoading) {
+                        submitBtn.classList.add("btn-loading");
+                        submitBtn.disabled = true;
+                    } else if (!overlayActive) {
+                        submitBtn.classList.remove("btn-loading");
+                        submitBtn.disabled = false;
+                    } else {
+                        submitBtn.classList.remove("btn-loading");
+                        submitBtn.disabled = true;
+                    }
+                }
+
+                function showOverlay() {
+                    if (!box) return;
+                    overlayActive = true;
+                    box.classList.add("error-box--visible");
+                    box.setAttribute("aria-hidden", "false");
+                    submitBtn.disabled = true;
+                }
+
+                function hideOverlayAnimated() {
+                    if (!box || !band) return;
+
+                    band.classList.remove("error-band--open");
+                    void band.offsetWidth;
+                    band.classList.add("error-band--close");
+
+                    if (closeAnimTimer) clearTimeout(closeAnimTimer);
+
+                    closeAnimTimer = setTimeout(() => {
+                        band.classList.remove("error-band--close");
+                        box.classList.remove("error-box--visible");
+                        box.setAttribute("aria-hidden", "true");
+                        band.style.width = "0";
+                        overlayActive = false;
+                        if (!submitBtn.classList.contains("btn-loading")) {
+                            submitBtn.disabled = false;
+                        }
+                    }, 600);
+                }
+
+                function showError(message) {
+                    if (!box || !band) return;
+
+                    msgEl.textContent = message ||
+                        "ระบบไม่สามารถดำเนินการต่อได้ เนื่องจากข้อมูลที่ระบุไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง.";
+
+                    showOverlay();
+
+                    band.classList.remove("error-band--close");
+                    void band.offsetWidth;
+                    band.classList.add("error-band--open");
+
+                    if (hideTimer) clearTimeout(hideTimer);
+
+                    hideTimer = setTimeout(() => {
+                        hideOverlayAnimated();
+                    }, 3200);
+                }
+
+                function hideErrorNow() {
+                    if (hideTimer) clearTimeout(hideTimer);
+                    if (closeAnimTimer) clearTimeout(closeAnimTimer);
+
+                    if (!box || !band) return;
+
+                    band.classList.remove("error-band--open", "error-band--close");
+                    box.classList.remove("error-box--visible");
+                    box.setAttribute("aria-hidden", "true");
+                    band.style.width = "0";
+                    overlayActive = false;
+                    if (!submitBtn.classList.contains("btn-loading")) {
+                        submitBtn.disabled = false;
+                    }
+                }
+
+                form.addEventListener("submit", function (e) {
+                    e.preventDefault();
+
+                    if (overlayActive) {
+                        return;
+                    }
+
+                    const value = (input.value || "").trim();
+                    successText.style.display = "none";
+
+                    // 1) ยังไม่กรอก
+                    if (!value) {
+                        showError(
+                            "ระบบไม่สามารถดำเนินการต่อได้ เนื่องจากยังไม่ได้ระบุ Personnel ID " +
+                            "กรุณากรอกหมายเลขประจำตัวบุคลากรให้ครบถ้วนก่อนกดดำเนินการต่อ."
+                        );
+                        input.focus();
+                        return;
+                    }
+
+                    // 2) ตรวจรูปแบบ A105-XX-0000
+                    const pattern = /^A105-[A-Z]{2}-\d{4}$/i;
+
+                    if (!pattern.test(value)) {
+                        showError(
+                            "รูปแบบ Personnel ID ที่ระบุไม่ถูกต้อง หรือไม่ตรงกับมาตรฐานที่ใช้ใน Area-105 " +
+                            "กรุณาตรวจสอบอีกครั้งว่าใช้รูปแบบ A105-XX-0000 (เช่น A105-RD-0001) แล้วลองใหม่อีกครั้ง."
+                        );
+                        input.focus();
+                        return;
+                    }
+
+                    setLoading(true);
+
+                    fetch(`${API_BASE}?id=${encodeURIComponent(value)}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            // ถ้าใช้ backend ตามที่เราออกแบบครั้งก่อน:
+                            // { ok: true, status: "FOUND", id, data: {...} }
+                            if (!data.ok || data.status !== "FOUND") {
+                                setLoading(false);
+                                showError(
+                                    "ไม่พบข้อมูลบุคลากรสำหรับ Personnel ID ที่ระบุ " +
+                                    "กรุณาตรวจสอบว่าไม่ได้พิมพ์ผิด หรือใช้หมายเลขที่ได้รับอนุมัติจาก Area-105 เท่านั้น."
+                                );
+                                input.focus();
+                                return;
+                            }
+
+                            successText.style.display = "block";
+
+                            // redirect ไปหน้า profile บน GitHub พร้อม query id
+                            const targetUrl = `${PROFILE_URL}?id=${encodeURIComponent(value)}`;
+                            window.location.href = targetUrl;
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            setLoading(false);
+                            showError(
+                                "ระบบไม่สามารถติดต่อเซิร์ฟเวอร์ได้ในขณะนี้ " +
+                                "กรุณาลองใหม่อีกครั้งภายหลัง หรือแจ้งเจ้าหน้าที่ Area-105."
+                            );
+                        });
+                });
+
+                if (box) {
+                    box.addEventListener("click", hideErrorNow);
+                }
+
+                document.addEventListener("keydown", (e) => {
+                    if (e.key === "Escape") {
+                        hideErrorNow();
+                    }
+                });
+            })();
+        </script>
+
+    </body>
+
+    </html>
 </body>
 
 </html>
