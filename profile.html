@@ -690,8 +690,10 @@
     <!-- Render JSON from backend API -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // ★ Apps Script API URL ★
+
             const API_BASE = "https://script.google.com/macros/s/AKfycbz-DS0yA5iorJMVJ8xmgXxPqvy-it2BgLk3xRLMm_RHETOL4lJTHrmAgDqvT0AOnOUuWQ/exec";
+            // 🔵 หน้า Gateway (index) ที่จะให้เด้งกลับเวลาไม่เจอข้อมูล
+            const INDEX_URL = "index.html";
 
             const loadingEl = document.getElementById("loadingScreen");
             const loadingDim = document.getElementById("loadingDim");
@@ -734,7 +736,6 @@
                 el.classList.remove("d-none");
             };
 
-            // ตั้งสี panel จาก JSON (accent + bg + text)
             const setPanelColors = (panelId, config) => {
                 if (!config) return;
                 const panel = document.getElementById(panelId);
@@ -751,7 +752,6 @@
                 }
             };
 
-            // ฟังก์ชันตั้งสี chip แบบ panel เล็ก
             const applyChipStyle = (el, config) => {
                 if (!el || !config) return;
                 const accent = config.accent_color;
@@ -920,11 +920,8 @@
             const personnelId = (params.get("id") || "").trim();
 
             if (!personnelId) {
-                setText("heroPersonnelId", "A105-XXX");
-                setText("heroPersonnelName", "[Missing ID]");
-                setText("heroPersonnelRole", "[No ID in URL]");
-                showHeroError("ไม่พบ parameter id ใน URL กรุณาเข้าผ่านหน้ากรอง Personnel ID อีกครั้ง.");
-                hideLoading();
+
+                window.location.href = INDEX_URL;
                 return;
             }
 
@@ -933,23 +930,23 @@
             fetch(`${API_BASE}?id=${encodeURIComponent(personnelId)}`)
                 .then(res => res.json())
                 .then(payload => {
+                 
                     if (!payload || !payload.ok || payload.status !== "FOUND" || !payload.data) {
-                        showHeroError("ไม่พบข้อมูลบุคลากรสำหรับ Personnel ID นี้ หรือข้อมูลไม่สามารถใช้งานได้.");
-                        setText("heroPersonnelName", "[Not Found]", "[Name]");
-                        setText("heroPersonnelRole", "[Unknown]", "[Role / Division]");
+                       
+                        window.location.href = INDEX_URL;
                         return;
                     }
 
                     const data = payload.data;
                     renderPersonnel(data);
 
-                    // อัปเดต <title> ให้มีรหัสบุคลากร
                     const idForTitle = data.id || personnelId;
                     document.title = `Area-105 Personnel File · ${idForTitle}`;
                 })
                 .catch(err => {
                     console.error("Error fetching personnel data:", err);
-                    showHeroError("ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ในขณะนี้ กรุณาลองใหม่ภายหลัง.");
+                    
+                    window.location.href = INDEX_URL;
                 })
                 .finally(() => {
                     hideLoading();
